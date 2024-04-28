@@ -2,6 +2,9 @@ import { deleteProduct } from "../../api/delete/delete";
 import { postProducts } from "../../api/post/postProduct";
 import { El } from "../../utils/El";
 import { ButtonCard } from "../button-card/ButtonCard";
+import { Modal } from "../modal/Modal";
+
+const existedProduct = { value: "", isEdit: false };
 
 export function Card(product) {
   const { name, price, imageURL, id } = product;
@@ -43,6 +46,23 @@ export function Card(product) {
             callback: async () => {
               await deleteProduct(id);
               location.reload();
+            },
+          },
+        ],
+      }),
+      ButtonCard({
+        text: "edit",
+        eventListener: [
+          {
+            event: "click",
+            callback: () => {
+              const parent = document.getElementById("container");
+              parent.append(Modal());
+              // existedProduct.isEdit = true;
+              const inputName = document.getElementById("name");
+              const inputPrice = document.getElementById("price");
+              inputName.value = name;
+              inputPrice.value = price;
             },
           },
         ],
